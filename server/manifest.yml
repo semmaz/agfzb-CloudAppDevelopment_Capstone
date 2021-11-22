@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp-f64
+  - name: djangoapp-f6442
     routes:
-      - route: djangoapp-f64.eu-gb.mybluemix.net
+      - route: djangoapp-f6442.eu-gb.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx-f64
+  - name: djangoapp-nginx-f6442
     routes:
-      - route: djangoapp-f64.eu-gb.mybluemix.net/static
+      - route: djangoapp-f6442.eu-gb.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack
