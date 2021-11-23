@@ -19,25 +19,20 @@ def get_request(url, **kwargs):
             response = requests.get(url, headers={'Content-Type':'application/json'}, params=kwargs)
 
         status_code = response.status_code
-        print("With status {} ".format(status_code))
         json_data = json.loads(response.text)
         #print(json_data)
     except Exception as e:
         print("Error " ,e)
-    
+
     return json_data
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, payload, **kwargs):
-    print(url)
-    print(payload)
-    print(kwargs)
     try:
         response = requests.post(url, params=kwargs, json=payload)
     except Exception as e:
         print("Error" ,e)
-    print("Status Code ", {response.status_code})
     data = json.loads(response.text)
     return data
 
@@ -73,7 +68,7 @@ def get_dealer_reviews_from_cf(url, dealer_id):
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, dealerId=dealer_id)
-    
+
     if "entries" in json_result:
         reviews = json_result["entries"]
         # For each review object
@@ -100,12 +95,10 @@ def get_dealer_reviews_from_cf(url, dealer_id):
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(dealerreview, **kwargs):
     API_KEY="ewnLrP_8yRlFejWtOAfaGS4GxdtUbPj0c8h6y7iyXvOT"
-    #API_KEY="0614ccd0-1e9f-4d49-923e-e7741f963747:Q3ZX2R1b3oBEb0XebEO99rpulJ31yoY7X5GfjoQykN4RpM9eThYrrs14If0aOHtG"
     NLU_URL='https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/73febab0-aa76-4f18-9d80-0239512139f1/v1/analyze?version=2020-08-01'
     params = json.dumps({"text": dealerreview, "features": {"sentiment": {}}})
     response = requests.post(NLU_URL,data=params,headers={'Content-Type':'application/json'},auth=HTTPBasicAuth("apikey", API_KEY))
-    
-    #print(response.json())
+
     try:
         sentiment=response.json()['sentiment']['document']['label']
         return sentiment
